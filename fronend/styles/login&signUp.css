@@ -1,0 +1,61 @@
+ 
+ *{
+    margin: 0;
+ }
+ .top {
+    height: 120px;
+    background-color: rgb(1, 87, 155);
+    color: white;
+}
+img{
+    width: 100%;
+    border-radius: 12px;
+}
+ #signUp,#signIn{
+    width: 25%;
+    height: 350px;
+    margin: auto;
+    margin-top: 0%;
+    padding: 50px;
+    /* box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px; */
+ }
+ .image{
+    width: 25%;
+    margin: auto;
+    padding: 24px;
+ }
+.form-group{
+    width: 85%;
+    margin-bottom: 12px;
+    margin-top: 13px;
+}
+.form-group>input{
+    width: 100%;
+    height: 32px;
+    
+}
+button{
+    background-color: rgb(1, 87, 155);
+    border: none;
+    color: white;
+    padding: 8px 18px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 0px;
+   width: 103%;
+    cursor: pointer;
+}
+.background{
+    background-image: url(https://img.gkbcdn.com/bn/2212/signin-639a88ce2b40c92bfc8cbbef._p1_.jpg);
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+#signIn>h2, #signUp>h2,#head{
+    background-color: rgb(1, 87, 155);
+    color: white;
+    width:89%;
+    text-align: center;
+    height: 30px;
+}
