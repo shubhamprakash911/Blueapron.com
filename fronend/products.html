@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>products</title>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <link rel="stylesheet" href="./styles//products.css">
+</head>
+
+<body>
+    <header></header>
+    <div id="functionality">
+        <button id="popular">popular</button>
+        
+        <div id="filterfunc">
+            <div id="brand">
+                <select id="brandfilter">
+                    <option value="">Brand</option>
+                    <option value="kfc">KFC</option>
+                    <option value="mcdonald's">McDonald's</option>
+                    <option value="subway">Subway</option>
+                    <option value="haldiram">Haldiram's</option>
+                    <option value="burgerking">Burger King</option>
+                </select>
+            </div>
+    
+                <div id="cuisine">
+                    <select id="cuisinefilter">
+                        <option value="">Cuisine</option>
+                        <option value="indian">Indian</option>
+                        <option value="italian">Italian</option>
+                        <option value="american">american</option>
+                    </select>    
+                </div>
+        
+                <div id="sort">
+                    <select id="sortfilter">
+                        <option value="">Sort</option>
+                        <option value="lowToHigh">Low To High</option>
+                        <option value="highToLow">High To Low</option>
+                    </select>
+                </div>
+        </div>
+    
+            <div id="priceRange">
+                 <div>
+                    <label for="minPrice">Min Price</label>
+                    <input type="number" id="minPrice">
+                 </div>
+                 <div>
+                    <label for="highPrice">Max Price</label>
+                    <input type="number" id="highPrice">
+                 </div>
+            </div>
+
+        <div id="radioBtn">
+            <div>
+                <input type="radio" id="veg" name="drone" value="veg"
+                       checked>
+                <label for="veg">Veg</label>
+              </div>
+          
+              <div>
+                <input type="radio" id="nonveg" name="drone" value="nonveg">
+                <label for="nonveg">Non Veg</label>
+              </div>
+        </div>
+    </div>
+
+
+    <div id="products">
+    </div>
+
+    <footer></footer>
+</body>
+ <script>
+const productData=localStorage.getItem("productData")
+ const getFood= (filter)=>{
+    console.log(filter);
+    fetch(`http://localhost:8000/products?search=${filter}`)
+     .then(res=>res.json())
+     .then((res)=>{
+        const cart=res.map((el)=>{
+            return `<div class="proCart">
+            <div class="proImg"><img src=${el.img}></div>
+            <h4 class="proName">${el.name}</h4>
+            <p class="proBrand">${el.brand}</p>
+            <p class="proCuisine">${el.cuisine}</p>
+            <p class="proRating">${el.rating}</p>
+            <h4 class="proPrice">${el.price}</h4>
+            <p class="proType">${el.type}</p>
+            <div class="divForcenter"><button class="proBtn">Add To Cart</button></div>
+            </div>`
+        })
+        document.getElementById("products").innerHTML=cart.join(" ")
+     })
+ }
+ getFood(productData)
+ </script>
+</html>
+
+<script>
+    $(function (){
+        $("header").load("navbar.html")
+    })
+
+    $(function (){
+        $("footer").load("footer.html")
+    })
+</script>  

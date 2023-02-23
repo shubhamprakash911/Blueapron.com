@@ -13,11 +13,11 @@
 <body>
     <header>
         <div id="nav">
-            <div id="logo"><a href="#"><img src="./image/Eat & Reap.png"></a></div>
+            <div id="logo"><a href="./index.html"><img src="./image/Eat & Reap.png"></a></div>
 
             <div id="search">
-                <form action="/action_page.php">
-                    <input type="text" placeholder="    Search for cuisine or a dish..." name="search" id="searchInp">
+                <form id="searchform">
+                    <input type="text" placeholder=" Search for cuisine or a dish..." name="search" id="searchInp">
                     <button type="submit" id="searchBtn">
                         <i class="fa fa-search"></i>
                     </button>
@@ -35,4 +35,13 @@
         </div>      
     </header> 
 </body>
+<script>
+    let searchform=document.getElementById("searchform")
+    searchform.addEventListener("submit",(e)=>{
+        e.preventDefault()
+        const searchInp=document.getElementById("searchInp").value
+        localStorage.setItem("productData",searchInp)
+        window.open("./products.html")
+    })
+</script>
 </html>
