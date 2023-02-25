@@ -6,7 +6,8 @@ const productSchema= mongoose.Schema({
     img:{type:String,require:true},
     rating:{type:Number,require:true,default:1,enum:[1,2,3,4,5]},
     price:{type:Number,required:true},
-    type:{type:String,required:true}
+    type:{type:String,required:true},
+    quentity:{type:Number,default:1}
 },{versionKey:false});
 
 const productModel= mongoose.model("product",productSchema)

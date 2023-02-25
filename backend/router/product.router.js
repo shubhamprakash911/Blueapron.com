@@ -5,14 +5,23 @@ const productRouter=express.Router();
 
 productRouter.get("/",async (req,res)=>{
     const query={};
-    if(req.query.search) query.name = {$regex:req.query.search,$options:"i"};
-    if(req.query.rating) query.rating = req.query.rating;
-    if(req.query.cuisine) query.cuisine= req.query.cuisine;
-    if(req.query.price) query.price=req.query.price;
-    if(req.query.type) query.cuisine= req.query.type;
+    const filter={};
+    const {search,brand,cuisine,min,max,type,rating,sort}=req.query
+
+    if(search) query.name = {$regex:search,$options:"i"};
+    if(brand)query.brand = brand;
+    if(cuisine) query.cuisine= cuisine;
+    if(type) query.type= type;
+
+    if(rating) filter.rating = -1;
+    if(sort) filter.price= +sort;
+ 
+     query.price={$gte:min?+min:0,$lte:max?+max:Infinity}
+    console.log(query,min,max)
+    console.log(req.query)
 
     try {
-        const productData=await productModel.find(query)
+        const productData=await productModel.find(query).sort(filter)
         res.send(productData)
     } catch (error) {
         res.send({"msg":error.message})

@@ -35,13 +35,16 @@
         </div>      
     </header> 
 </body>
+
 <script>
     let searchform=document.getElementById("searchform")
     searchform.addEventListener("submit",(e)=>{
         e.preventDefault()
         const searchInp=document.getElementById("searchInp").value
         localStorage.setItem("productData",searchInp)
-        window.open("./products.html")
+        localStorage.setItem("brand","")
+        window.location.href="./products.html"
     })
 </script>
+
 </html>

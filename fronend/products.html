@@ -11,6 +11,7 @@
 
 <body>
     <header></header>
+
     <div id="functionality">
         <button id="popular">popular</button>
         
@@ -46,19 +47,25 @@
     
             <div id="priceRange">
                  <div>
-                    <label for="minPrice">Min Price</label>
-                    <input type="number" id="minPrice">
+                    <label>Min Price</label>
+                    <input type="text" id="minPrice">
                  </div>
                  <div>
-                    <label for="highPrice">Max Price</label>
-                    <input type="number" id="highPrice">
+                    <label>Max Price</label>
+                    <input type="text" id="highPrice">
                  </div>
+
+                <button onclick="minmax()" >submit</button>
             </div>
 
         <div id="radioBtn">
             <div>
-                <input type="radio" id="veg" name="drone" value="veg"
-                       checked>
+                <input type="radio" id="all" name="drone" value="" checked>
+                <label for="all">All</label>
+              </div>
+
+            <div>
+                <input type="radio" id="veg" name="drone" value="veg">
                 <label for="veg">Veg</label>
               </div>
           
@@ -76,10 +83,15 @@
     <footer></footer>
 </body>
  <script>
-const productData=localStorage.getItem("productData")
- const getFood= (filter)=>{
-    console.log(filter);
-    fetch(`http://localhost:8000/products?search=${filter}`)
+const name=localStorage.getItem("productData")
+let brand=localStorage.getItem("brand")
+
+let cuisine; let rating; let sort; let min; let max;
+
+
+ const getFood= (name,brand,rating="",sort="",cuisine="",min="",max="")=>{
+    console.log(name,brand,rating,sort,cuisine,min,max)
+    fetch(`http://localhost:8000/products?search=${name}&brand=${brand}&rating=${rating}&sort=${sort}&cuisine=${cuisine}&min=${min}&max=${max}`)
      .then(res=>res.json())
      .then((res)=>{
         const cart=res.map((el)=>{
@@ -97,7 +109,54 @@ const productData=localStorage.getItem("productData")
         document.getElementById("products").innerHTML=cart.join(" ")
      })
  }
- getFood(productData)
+
+//price range
+function minmax(){
+    min=document.getElementById("minPrice").value
+    max=document.getElementById("highPrice").value
+    getFood(name,brand,rating,sort,cuisine,min,max)
+}
+
+
+
+
+ //filter brand
+brandfilter=document.getElementById("brandfilter")
+brandfilter.addEventListener("change",()=>{
+    brand=brandfilter.value
+    getFood(name,brand,rating,sort,cuisine,min,max)
+})
+
+//rating sort
+ document.getElementById("popular").addEventListener("click",()=>{
+    rating="des"
+    getFood(name,brand,rating,sort,cuisine,min,max)
+ })
+
+ //sort price
+let sortfilter=document.getElementById("sortfilter")
+sortfilter.addEventListener("change",()=>{
+    if(sortfilter.value===""){
+        getFood(name,brand,rating,sort,cuisine,min,max)
+    }else{
+        if(sortfilter.value=="lowToHigh"){
+            sort=1
+            getFood(name,brand,rating,sort,cuisine,min,max)
+        }else{
+            sort=-1
+            getFood(name,brand,rating,sort,cuisine,min,max)
+        }
+    } 
+})
+
+//filter cuisine
+let cuisinefilter=document.getElementById("cuisinefilter")
+cuisinefilter.addEventListener("change",()=>{
+    cuisine=cuisinefilter.value
+    getFood(name,brand,rating,sort,cuisine,min,max)
+})
+
+getFood(name,brand)
  </script>
 </html>
 

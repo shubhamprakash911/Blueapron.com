@@ -23,22 +23,22 @@
         <div id="box1">
             <div class="box1head"><h1>Inspiration for your first order</h1></div>
              <div class="category">
-                <div><a href="#"><img src="https://b.zmtcdn.com/data/o2_assets/2b5a5b533473aada22015966f668e30e1633434990.png"><h3>Paratha</h3></a></div>
-                <div><a href="#"><img src="https://b.zmtcdn.com/data/o2_assets/d0bd7c9405ac87f6aa65e31fe55800941632716575.png"><h3>Pizza</h3></a></div>
-                <div><a href="#"><img src="https://b.zmtcdn.com/data/dish_images/c953e5ca07150e9a51f8b21102e20f7e1634805157.png"><h3>Bhature</h3></a></div>
-                <div><a href="#"><img src="https://b.zmtcdn.com/data/o2_assets/fc641efbb73b10484257f295ef0b9b981634401116.png"><h3>Sandwich</h3></a></div>
-                <div><a href="#"><img src="https://b.zmtcdn.com/data/dish_images/ccb7dc2ba2b054419f805da7f05704471634886169.png"><h3>Burger</h3></a></div>
+                <div><a href="./products.html"><img src="https://b.zmtcdn.com/data/o2_assets/2b5a5b533473aada22015966f668e30e1633434990.png"><h3>paratha</h3></a></div>
+                <div><a href="./products.html"><img src="https://b.zmtcdn.com/data/o2_assets/d0bd7c9405ac87f6aa65e31fe55800941632716575.png"><h3>pizza</h3></a></div>
+                <div><a href="./products.html"><img src="https://b.zmtcdn.com/data/dish_images/c953e5ca07150e9a51f8b21102e20f7e1634805157.png"><h3>bhature</h3></a></div>
+                <div><a href="./products.html"><img src="https://b.zmtcdn.com/data/o2_assets/fc641efbb73b10484257f295ef0b9b981634401116.png"><h3>sandwich</h3></a></div>
+                <div><a href="./products.html"><img src="https://b.zmtcdn.com/data/dish_images/ccb7dc2ba2b054419f805da7f05704471634886169.png"><h3>burger</h3></a></div>
              </div>
         </div>
 
         <div id="box2">
             <div class="box2head"><h1>Top brands for you</h1></div>
             <div class="category">
-                <div><a href="#"><img src="https://b.zmtcdn.com/data/brand_creatives/logos/bb30587d1148b6ab628a61945f64bf88_1625164768.png?output-format=webp"><h3>McDonald's</h3></a></div>
-                <div><a href="#"><img src="https://b.zmtcdn.com/data/brand_creatives/logos/6a11fd0f30c9fd9ceaff2f5b21f61d23_1617187857.png?output-format=webp"><h3>McDonald's</h3></a></div>
-                <div><a href="#"><img src="https://b.zmtcdn.com/data/brand_creatives/logos/466f8fc74274145f3b21795c3d21816d_1589433692.png?output-format=webp"><h3>McDonald's</h3></a></div>
-                <div><a href="#"><img src="https://b.zmtcdn.com/data/brand_creatives/logos/9302c59eca94abbee01aec9acf9305f6_1676471786.png?output-format=webp"><h3>McDonald's</h3></a></div>
-                <div><a href="#"><img src="https://b.zmtcdn.com/data/brand_creatives/logos/22529ff52d41a4aa3b36ac1e7e0c0db3_1605099406.png?output-format=webp"><h3>McDonald's</h3></a></div>
+                <div class="mcdonald's"><a href="./products.html"><img src="https://b.zmtcdn.com/data/brand_creatives/logos/bb30587d1148b6ab628a61945f64bf88_1625164768.png?output-format=webp"><h3>McDonald's</h3></a></div>
+                <div class="burgerking"><a href="./products.html"><img src="https://b.zmtcdn.com/data/brand_creatives/logos/6a11fd0f30c9fd9ceaff2f5b21f61d23_1617187857.png?output-format=webp"><h3>Burger King</h3></a></div>
+                <div class="kfc"><a href="./products.html"><img src="https://b.zmtcdn.com/data/brand_creatives/logos/466f8fc74274145f3b21795c3d21816d_1589433692.png?output-format=webp"><h3>KFC</h3></a></div>
+                <div class="subway"><a href="./products.html"><img src="https://b.zmtcdn.com/data/brand_creatives/logos/9302c59eca94abbee01aec9acf9305f6_1676471786.png?output-format=webp"><h3>Subway</h3></a></div>
+                <div class="haldiram"><a href="./products.html"><img src="https://b.zmtcdn.com/data/brand_creatives/logos/22529ff52d41a4aa3b36ac1e7e0c0db3_1605099406.png?output-format=webp"><h3>Haldiram's</h3></a></div>
             </div>
         </div>
 
@@ -60,6 +60,28 @@
 
     <footer></footer>
 </body>
+
+<script>
+  let box1= document.querySelectorAll("#box1 .category div")
+  box1.forEach((el)=>{
+    el.addEventListener("click",(e)=>{
+        localStorage.setItem("productData",el.innerText)
+        localStorage.setItem("brand","")
+    })
+  })
+
+  let box2= document.querySelectorAll("#box2 .category div")
+  box2.forEach((el)=>{
+    el.addEventListener("click",(e)=>{
+        console.log(el.classList[0])
+        localStorage.setItem("brand",el.classList[0])
+        localStorage.setItem("productData","")
+
+    })
+  })
+  console.log(box2)
+</script>
+
 </html>
 
 <script>
