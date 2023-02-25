@@ -7,7 +7,7 @@ display: flex;
 align-items: center;
 justify-content: space-between; 
 background-color: rgb(238, 235, 235);
-padding: 12px;
+padding: 5px 4%;
 }
 
 #popular{
@@ -59,7 +59,7 @@ border: none;
 }
 
 
-#filterfunc select:hover,#priceRange input:hover,#popular:hover,.proBtn:hover{
+#filterfunc select:hover,#priceRange input:hover,#popular:hover,.proBtn:hover,#priceRange button:hover{
 background-color: #f26226;
 color: white;
 }
@@ -69,8 +69,15 @@ color: white;
 display: grid;
 grid-template-columns: repeat(4,1fr);
 gap: 35px 35px;
-width: 87%;
+width: 92%;
 margin: auto;
+}
+
+#priceRange button{
+    background-color: rgb(1, 87, 155);
+    color: white;
+    border: none;
+    padding: 3px;
 }
 
 
