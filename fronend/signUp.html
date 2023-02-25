@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignUp</title>
+    <link rel="stylesheet" href="./styles/login&signUp.css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+<body>
+    <header></header>
+        <div class="background">
+            <div id="SingUpRegister">
+                <h2>SIGNUP FORM</h2>
+                <form>
+                    <div class="form-group">
+                        <input type="text" name="name" id="name" placeholder="Full Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="email" id="email" placeholder="Email Address" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="pwd" id="pwd" placeholder="Password" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit">Sign Up</button>
+                        <!-- <input type="submit" value="Submit"> -->
+                    </div>
+                </form>
+                <p>Already a member? <a href="./signIn.html">Sign In</a></p>
+            </div>
+        </div>
+
+        <footer></footer>   
+
+</body> 
+   <script>
+     
+     let data=JSON.parse(localStorage.getItem("account-data"))||[];
+     let myform=document.querySelector("form")
+
+     myform.addEventListener("submit",(event)=>{
+        event.preventDefault();
+        
+        let userdata={
+            fname:myform.fname.value,
+            lname:myform.lname.value,
+            email:myform.email.value,
+            pwd:myform.pwd.value,
+        }
+
+        let flag=true;
+        for(let i=0; i<data.length; i++){
+            if(data[i].email===myform.email.value){
+                flag=false;
+                break;
+            }
+        }
+        if(flag){
+            data.push(userdata)
+            localStorage.setItem("account-data",JSON.stringify(data))
+            alert("Account Created.\n\nPlease Sign In using the link below.");
+        }else{
+            alert("Ooopppssss... Duplicate found!!!\nYou have already signed up");
+        }
+        
+     })
+   </script>
+</html>
+
+<script>
+    $(function (){
+        $("header").load("navbar.html")
+    })
+
+    $(function (){
+        $("footer").load("footer.html")
+    })
+</script>  
