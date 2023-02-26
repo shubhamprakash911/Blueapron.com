@@ -16,7 +16,7 @@ productRouter.get("/",async (req,res)=>{
     if(rating) filter.rating = -1;
     if(sort) filter.price= +sort;
  
-     query.price={$gte:min?+min:0,$lte:max?+max:Infinity}
+    query.price={$gte:min?+min:0,$lte:max?+max:Infinity}
     console.log(query,min,max)
     console.log(req.query)
 
@@ -33,7 +33,8 @@ productRouter.use(authorization)
 productRouter.post("/create",async (req,res)=>{
     try {
         await new productModel(req.body).save()
-        res.send({"msg":"product created"})
+        let data=await productModel.find()
+        res.send({"msg":"product created","data":data})
     } catch (error) {
         res.send({"msg":error.message})
     }
@@ -50,7 +51,9 @@ productRouter.patch("/update/:id",async(req,res)=>{
 
 productRouter.delete("/delete/:id",async(req,res)=>{
     try {
-        await productModel.findByIdAndDelete({_id:req.params.id},req.body)
+        await productModel.findByIdAndDelete({_id:req.params.id})
+        let data= await productModel.find()
+        res.send({"msg":"item deleted successful","data":data})
     } catch (error) {
         res.send({"msg":error.message})
     }

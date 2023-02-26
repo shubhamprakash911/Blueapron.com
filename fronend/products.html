@@ -85,66 +85,94 @@
  <script>
 const name=localStorage.getItem("productData")
 let brand=localStorage.getItem("brand")
+let addToCart=JSON.parse(localStorage.getItem("cart"))||[]
 
-let cuisine; let rating; let sort; let min; let max;
+//all parameter in global scope
+let cuisine; let rating; let sort; let min; let max; let type
 
 
- const getFood= (name,brand,rating="",sort="",cuisine="",min="",max="")=>{
+ const getFood= (name,brand,rating="",sort="",cuisine="",min="",max="",type="")=>{
     console.log(name,brand,rating,sort,cuisine,min,max)
-    fetch(`http://localhost:8000/products?search=${name}&brand=${brand}&rating=${rating}&sort=${sort}&cuisine=${cuisine}&min=${min}&max=${max}`)
+    fetch(`https://fine-cowboy-hat-deer.cyclic.app/products?search=${name}&brand=${brand}&rating=${rating}&sort=${sort}&cuisine=${cuisine}&min=${min}&max=${max}&type=${type}`)
      .then(res=>res.json())
      .then((res)=>{
-        const cart=res.map((el)=>{
+        const cart=res.map((el,i)=>{
             return `<div class="proCart">
             <div class="proImg"><img src=${el.img}></div>
             <h4 class="proName">${el.name}</h4>
-            <p class="proBrand">${el.brand}</p>
-            <p class="proCuisine">${el.cuisine}</p>
-            <p class="proRating">${el.rating}</p>
-            <h4 class="proPrice">${el.price}</h4>
-            <p class="proType">${el.type}</p>
-            <div class="divForcenter"><button class="proBtn">Add To Cart</button></div>
+            <h class="proBrand">Brand: ${el.brand}</p>
+            <p class="proCuisine">Cuisine: ${el.cuisine}</p>
+            <p class="proRating">Rating: ${el.rating}</p>
+            <h class="proType">Type: ${el.type}</p>
+           <h4 class="proPrice">Price: ${el.price}</h4>
+            <div class="divForcenter"><button class="proBtn" data-id=${i}>Add To Cart</button></div>
             </div>`
         })
         document.getElementById("products").innerHTML=cart.join(" ")
+
+        let cartsBtn=document.querySelectorAll(".proBtn")
+        for(let btn of cartsBtn){
+            btn.addEventListener("click",(e)=>{
+                addToCart.push(res[e.target.dataset.id])
+                localStorage.setItem("cart",JSON.stringify(addToCart))
+                alert("product added to cart")
+            })
+        }
      })
  }
+
+ //radio all
+ document.getElementById("all").addEventListener("click",()=>{
+    getFood(name,brand,rating,sort,cuisine,min,max)
+ })
+
+ //radio veg
+ let vegRadio=document.getElementById("veg")
+ vegRadio.addEventListener("click",()=>{
+    type=vegRadio.value
+    getFood(name,brand,rating,sort,cuisine,min,max,type)
+ })
+
+ //radio non-veg
+ let nonVeg=document.getElementById("nonveg")
+ nonVeg.addEventListener("click",()=>{
+    console.log(nonVeg.value)
+    type=nonVeg.value
+    getFood(name,brand,rating,sort,cuisine,min,max,type)
+ })
 
 //price range
 function minmax(){
     min=document.getElementById("minPrice").value
     max=document.getElementById("highPrice").value
-    getFood(name,brand,rating,sort,cuisine,min,max)
+    getFood(name,brand,rating,sort,cuisine,min,max,type)
 }
-
-
-
 
  //filter brand
 brandfilter=document.getElementById("brandfilter")
 brandfilter.addEventListener("change",()=>{
     brand=brandfilter.value
-    getFood(name,brand,rating,sort,cuisine,min,max)
+    getFood(name,brand,rating,sort,cuisine,min,max,type)
 })
 
 //rating sort
  document.getElementById("popular").addEventListener("click",()=>{
     rating="des"
-    getFood(name,brand,rating,sort,cuisine,min,max)
+    getFood(name,brand,rating,sort,cuisine,min,max,type)
  })
 
  //sort price
 let sortfilter=document.getElementById("sortfilter")
 sortfilter.addEventListener("change",()=>{
     if(sortfilter.value===""){
-        getFood(name,brand,rating,sort,cuisine,min,max)
+        getFood(name,brand,rating,sort,cuisine,min,max,type)
     }else{
         if(sortfilter.value=="lowToHigh"){
             sort=1
-            getFood(name,brand,rating,sort,cuisine,min,max)
+            getFood(name,brand,rating,sort,cuisine,min,max,type)
         }else{
             sort=-1
-            getFood(name,brand,rating,sort,cuisine,min,max)
+            getFood(name,brand,rating,sort,cuisine,min,max,type)
         }
     } 
 })
@@ -153,7 +181,7 @@ sortfilter.addEventListener("change",()=>{
 let cuisinefilter=document.getElementById("cuisinefilter")
 cuisinefilter.addEventListener("change",()=>{
     cuisine=cuisinefilter.value
-    getFood(name,brand,rating,sort,cuisine,min,max)
+    getFood(name,brand,rating,sort,cuisine,min,max,type)
 })
 
 getFood(name,brand)

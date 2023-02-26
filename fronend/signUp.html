@@ -21,7 +21,7 @@
                         <input type="email" name="email" id="email" placeholder="Email Address" required>
                     </div>
                     <div class="form-group">
-                        <input type="password" name="pwd" id="pwd" placeholder="Password" required>
+                        <input type="password" name="pass" id="pass" placeholder="Password" required>
                     </div>
                     <div class="form-group">
                         <button type="submit">Sign Up</button>
@@ -36,36 +36,35 @@
 
 </body> 
    <script>
-     
-     let data=JSON.parse(localStorage.getItem("account-data"))||[];
-     let myform=document.querySelector("form")
 
-     myform.addEventListener("submit",(event)=>{
-        event.preventDefault();
-        
-        let userdata={
-            fname:myform.fname.value,
-            lname:myform.lname.value,
-            email:myform.email.value,
-            pwd:myform.pwd.value,
+    let signUpform=document.querySelector("form")
+    // console.log(signUp)
+    signUpform.addEventListener("submit",(e)=>{
+        e.preventDefault()
+        const userDetail={
+            name:signUpform.name.value,
+            email:signUpform.email.value,
+            pass:signUpform.pass.value
         }
 
-        let flag=true;
-        for(let i=0; i<data.length; i++){
-            if(data[i].email===myform.email.value){
-                flag=false;
-                break;
+        console.log(userDetail)
+        fetch("https://fine-cowboy-hat-deer.cyclic.app/users/register",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(userDetail)
+        })
+        .then(res=>res.json())
+        .then((res)=>{
+            alert(res.msg)
+            if(res.msg=="new users has been register"){
+                window.location.href="./signin.html"
             }
-        }
-        if(flag){
-            data.push(userdata)
-            localStorage.setItem("account-data",JSON.stringify(data))
-            alert("Account Created.\n\nPlease Sign In using the link below.");
-        }else{
-            alert("Ooopppssss... Duplicate found!!!\nYou have already signed up");
-        }
-        
-     })
+        })
+        .catch(err=>console.log(err))
+    })
+    
    </script>
 </html>
 
