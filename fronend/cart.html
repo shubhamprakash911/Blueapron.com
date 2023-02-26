@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <style>
+        #cartContainer{
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            width: 90%;
+            margin: auto;
+            gap: 25px;
+
+        }
+        @media all and (min-width:320px) and (max-width:750px){
+            #cartContainer{
+            grid-template-columns: repeat(2,1fr);
+        }
+        }
+    </style>
+</head>
+<body>
+    <header></header>
+    <div id="cartContainer"></div>
+    <footer></footer>
+</body>
+<script>
+    let data=JSON.parse(localStorage.getItem("cart"))||[]
+    dispayProducts(data)
+    
+    function dispayProducts(data){
+            const cart=data.map((el,i)=>{
+            return `<div class="proCart">
+            <div class="proImg"><img src=${el.img}></div>
+            <h4 class="proName">${el.name}</h4>
+            <h class="proBrand">Brand: ${el.brand}</p>
+            <p class="proCuisine">Cuisine: ${el.cuisine}</p>
+            <p class="proRating">Rating: ${el.rating}</p>
+            <h class="proType">Type: ${el.type}</p>
+           <h4 class="proPrice">Price: ${el.price}</h4>
+            <div class="divForcenter"><button class="proBtn" data-id=${i}>Remove</button></div>
+            </div>`
+            })
+
+        document.getElementById("cartContainer").innerHTML=cart.join(" ")
+    }
+</script>
+</html>
+
+<script>
+    $(function (){
+        $("header").load("navbar.html")
+    })
+
+    $(function (){
+        $("footer").load("footer.html")
+    })
+</script>  

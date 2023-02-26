@@ -29,6 +29,8 @@ img{
     display: flex;
     width: 15%;
     align-items: center;
+    color: #f26226;
+    cursor: pointer;
 }
 
 #register a{
@@ -154,6 +156,8 @@ img{
 #logoCont i{
     width: 30px;
 }
+
+
 
 
 

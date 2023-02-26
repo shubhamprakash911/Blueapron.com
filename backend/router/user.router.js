@@ -2,7 +2,17 @@ const express = require("express");
 const {userModel} = require("../model/user.model")
 const bcrypt= require("bcrypt")
 const jwt= require("jsonwebtoken")
+const {authorization} = require("../middleware/authorization.middleware")
 const userRouter= express.Router();
+
+userRouter.get("/",async (req,res)=>{
+    try {
+        let users=await userModel.find()
+        res.send(users)
+    } catch (error) {
+        res.send({"msg":"something went wrong ","err":error.message})
+    }
+})
 
 userRouter.post("/register",async (req,res)=>{
     const {name,email,pass,isAdmin}= req.body;
@@ -35,7 +45,7 @@ userRouter.post("/login",async (req,res)=>{
             bcrypt.compare(pass, user[0].pass,(err, result)=> {
                  if(result){
                     let token= jwt.sign({isAdmin:user[0].isAdmin},"masai")
-                    res.send({"msg":"new users has been login",token,isAdmin:user[0].isAdmin})
+                    res.send({"msg":"login Successful","name":user[0].name,token,"isAdmin":user[0].isAdmin})
                  }else{
                     res.send("Wrong crediatial")
                  }
@@ -46,6 +56,16 @@ userRouter.post("/login",async (req,res)=>{
     } catch (error) {
         res.send({"msg":"something went wrong "})
     } 
+ })
+
+ userRouter.delete("/delete/:id",authorization,async(req,res)=>{
+    try {
+        await userModel.findByIdAndDelete({_id:req.params.id})
+        let data=await userModel.find()
+        res.send({"msg":"user deleted successful","data":data})
+    } catch (error) {
+        res.send({"msg":"something went wrong"})
+    }
  })
 
  module.exports={userRouter}

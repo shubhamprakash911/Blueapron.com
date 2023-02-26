@@ -21,7 +21,7 @@
                 <input type="email" name="email" id="email" placeholder="Email Address" required>
             </div>
             <div class="form-group">
-                <input type="password" name="pwd" id="pwd" placeholder="Password" required>
+                <input type="password" name="pass" id="pass" placeholder="Password" required>
             </div>
             <div class="form-group">
                 <button type="submit">Sign In</button>
@@ -41,29 +41,41 @@
    
   <script>
 
-    let signUpData=JSON.parse(localStorage.getItem("account-data"))||[];
-    let myform=document.querySelector("form")
-    
-    myform.addEventListener("submit",(event)=>{
-        event.preventDefault();
+let signInLogin=document.querySelector("form")
+    // console.log(signUp)
+    signInLogin.addEventListener("submit",(e)=>{
+        e.preventDefault()
+        const userDetail={
+            email:signInLogin.email.value,
+            pass:signInLogin.pass.value
+        }
 
-        let userdata={
-            email:myform.email.value,
-            pwd:myform.pwd.value
-        }
-            let i;
-        for( i=0; i<signUpData.length; i++){
-            if(signUpData[i].email===userdata.email && signUpData[i].pwd===userdata.pwd){
-                alert("SignIn successful")
+        console.log(userDetail)
+        fetch("https://fine-cowboy-hat-deer.cyclic.app/users/login",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(userDetail)
+        })
+        .then(res=>res.json())
+        .then((res)=>{
+            if(res.isAdmin){
+                alert(`Welcome Admin`)
+                 window.location.href="./admin.html"
+            }else if(res.msg=="login Successful"){
+                // localStorage.setItem("loginUser",res.name)
+                alert(res.msg)
                 window.location.href="./index.html"
-                 break;
+            }else{
+                alert(res.msg)
             }
-               
-        }
-        if(signUpData.length==0|| signUpData.length==i){
-                alert("Incorrect login credentials\nPlease SignUp in case you don't have account using below link");
-            }
+
+            localStorage.setItem("token",res.token)
+        })
+        .catch(err=>console.log(err))
     })
+
   </script>
 </html>
 
