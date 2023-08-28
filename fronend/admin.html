@@ -1,146 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<style>
-
-    button{
-        background-color: rgb(1, 87, 155);
-        color: white;
+  </head>
+  <style>
+    button {
+      background-color: rgb(1, 87, 155);
+      color: white;
     }
-    img{
-        width: 100%;
+    img {
+      width: 100%;
     }
-    #container{
-        display: flex;
+    #container {
+      display: flex;
     }
-    #box1{
-        width: 23%;
+    #box1 {
+      width: 23%;
     }
-    #box2{
-        width: 77%;
-    }
-
-    #showDom{
-        display: grid;
-        grid-template-columns: repeat(3,1fr);
-        gap: 25px;
-        width: 100%;
+    #box2 {
+      width: 77%;
     }
 
-    #showDom .cart{
-        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-        background-color: aliceblue;
+    #showDom {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+      width: 100%;
     }
 
-    #updateAndcreate{
-        margin-top: 20px;
+    #showDom .cart {
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+      background-color: aliceblue;
     }
 
-</style>
-<body>
+    #updateAndcreate {
+      margin-top: 20px;
+    }
+  </style>
+  <body>
     <div id="container">
-
-        <div id="box1">
-            <button id="usersBtn">users</button>
-            <button id="productsBtn">foods</button>
-            <div id="updateAndcreate">
-                <form>
-                    <div id="formhead">Create & Update Items</div>
-                    <div class="form-group">
-                        <input type="text" placeholder="Name" id="name">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" placeholder="Brand" id="brand">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" placeholder="Cuisine" id="cuisine">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" placeholder="Image" id="img">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" placeholder="Rating" id="rating">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" placeholder="Price" id="price">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" placeholder="Type" id="type">
-                    </div>
-                    <div id="create&update">
-                        <button type="submit" id="create">Add</button>
-                    </div>
-                </form>
+      <div id="box1">
+        <button id="usersBtn">users</button>
+        <button id="productsBtn">foods</button>
+        <div id="updateAndcreate">
+          <form>
+            <div id="formhead">Create & Update Items</div>
+            <div class="form-group">
+              <input type="text" placeholder="Name" id="name" />
             </div>
+            <div class="form-group">
+              <input type="text" placeholder="Brand" id="brand" />
+            </div>
+            <div class="form-group">
+              <input type="text" placeholder="Cuisine" id="cuisine" />
+            </div>
+            <div class="form-group">
+              <input type="text" placeholder="Image" id="img" />
+            </div>
+            <div class="form-group">
+              <input type="text" placeholder="Rating" id="rating" />
+            </div>
+            <div class="form-group">
+              <input type="text" placeholder="Price" id="price" />
+            </div>
+            <div class="form-group">
+              <input type="text" placeholder="Type" id="type" />
+            </div>
+            <div id="create&update">
+              <button type="submit" id="create">Add</button>
+            </div>
+          </form>
         </div>
-         
-        <div id="box2">
-            <div id="showDom"></div>
-        </div>
+      </div>
+
+      <div id="box2">
+        <div id="showDom"></div>
+      </div>
     </div>
-    
-</body>
-<script>
+  </body>
+  <script type="module">
+    import { BASE_URL } from "./baseUrl.js";
+    const token = JSON.parse(localStorage.getItem("LoginUser")).token;
+    console.log(token);
 
-//create items
-document.getElementById("create").addEventListener("click",(e)=>{
-    e.preventDefault()
-    let productsDetail={
-          name:document.getElementById("name").value,  
-          brand:document.getElementById("brand").value,
-          cuisine:document.getElementById("cuisine").value,
-          img:document.getElementById("img").value,
-          rating:document.getElementById("rating").value,
-          price:document.getElementById("price").value,
-          type:document.getElementById("type").value
-     }
-    fetch(`https://fine-cowboy-hat-deer.cyclic.app/products/create`,{
-        method:"POST",
-        headers:{
-         "Content-Type": "application/json",  
-         "Authorization":localStorage.getItem("token")
+    //create items
+    document.getElementById("create").addEventListener("click", (e) => {
+      e.preventDefault();
+      let productsDetail = {
+        name: document.getElementById("name").value,
+        brand: document.getElementById("brand").value,
+        cuisine: document.getElementById("cuisine").value,
+        img: document.getElementById("img").value,
+        rating: document.getElementById("rating").value,
+        price: document.getElementById("price").value,
+        type: document.getElementById("type").value,
+      };
+      fetch(`${BASE_URL}products/create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-        body:JSON.stringify(productsDetail)
-    })
-    .then(res=>res.json())
-    .then((res)=>{
-        console.log(res.data)
-        showFood(res.data)})
-     .catch(err=>console.log(err))
+        body: JSON.stringify(productsDetail),
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          console.log(res.data);
+          showFood(res.data);
+        })
+        .catch((err) => console.log(err));
+    });
 
-})
+    //get all products
+    let productsBtn = document.getElementById("productsBtn");
+    productsBtn.addEventListener("click", () => {
+      fetch(BASE_URL + "products", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((res) => showFood(res))
+        .catch((err) => console.log(err));
+    });
 
+    //get all users
+    let usersBtn = document.getElementById("usersBtn");
+    usersBtn.addEventListener("click", () => {
+      fetch(BASE_URL + "users", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          alert(res.msg);
+          if (res.status) showUsers(res.data);
+        });
+    });
 
-  //get all products
-   let productsBtn=document.getElementById("productsBtn")
-   productsBtn.addEventListener("click",()=>{
-      fetch("https://fine-cowboy-hat-deer.cyclic.app/products")
-      .then(res=>res.json())
-      .then((res)=>showFood(res))
-      .catch(err=>console.log(err))
-   })
+    let showDom = document.getElementById("showDom");
 
-   //get all users
-   let usersBtn=document.getElementById("usersBtn")
-   usersBtn.addEventListener("click",()=>{
-       fetch("https://fine-cowboy-hat-deer.cyclic.app/users")
-       .then(res=>res.json())
-       .then((res)=>{
-          showUsers(res) 
-       })
-   })
-
-   let showDom=document.getElementById("showDom");
-
-   function showFood(data){
-    showDom.innerHTML=null
-     let products=data.map((el)=>{
-         return `<div class="cart">
+    function showFood(data) {
+      showDom.innerHTML = null;
+      let products = data.map((el) => {
+        return `<div class="cart">
             <div class="proImg"><img src=${el.img}></div>
             <h4 class="proName">${el.name}</h4>
             <p class="proBrand">${el.brand}</p>
@@ -148,58 +155,59 @@ document.getElementById("create").addEventListener("click",(e)=>{
             <p class="proRating">${el.rating}</p>
             <h4 class="proPrice">${el.price}</h4>
             <p class="proType">${el.type}</p>
-            <button class="deleteBtn" data-id=${el._id}>Delete</button> 
-            <button class="updateBtn">Update</button> 
-            </div>`
-     })
+            <button class="deleteBtn" data-id=${el._id}>Delete</button>
+            <button class="updateBtn">Update</button>
+            </div>`;
+      });
 
-     showDom.innerHTML=products.join(" ")
+      showDom.innerHTML = products.join(" ");
 
-     //delete products
-     let deleteBtns=document.querySelectorAll(".deleteBtn")
-      for(let btn of deleteBtns){
-        btn.addEventListener("click",(e)=>{
-            fetch(`https://fine-cowboy-hat-deer.cyclic.app/products/delete/${e.target.dataset.id}`,{
-                    method:"DELETE",
-                    headers:{
-                        "Authorization":localStorage.getItem("token")
-                    }
-                 })
-                 .then(res=>res.json())
-                .then((res)=>showFood(res.data))
-                .catch(err=>console.log(err))         
-        })
+      //delete products
+      let deleteBtns = document.querySelectorAll(".deleteBtn");
+      for (let btn of deleteBtns) {
+        btn.addEventListener("click", (e) => {
+          fetch(`${BASE_URL}products/delete/${e.target.dataset.id}`, {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+            .then((res) => res.json())
+            .then((res) => showFood(res.data))
+            .catch((err) => console.log(err));
+        });
       }
     }
 
-   function showUsers(data){
-    showDom.innerHTML=null
-        let users=data.map((el)=>{
-            return `
+    function showUsers(data) {
+      showDom.innerHTML = null;
+      let users = data.map((el) => {
+        return `
                 <div class="cart">
                     <h2 class="userName">${el.name}</h2>
                     <p class="userEmail">${el.email}</p>
                     <button class="deleteBtn" data-id=${el._id}>Delete</button>
-                </div>`
-         })
-         showDom.innerHTML=users.join(" ")
+                </div>`;
+      });
+      showDom.innerHTML = users.join(" ");
 
-         //delete users
-         let deleteBtns=document.querySelectorAll(".deleteBtn")
-         for(let btn of deleteBtns){
-              btn.addEventListener("click",(e)=>{
-                 fetch(`https://fine-cowboy-hat-deer.cyclic.app/users/delete/${e.target.dataset.id}`,{
-                    method:"DELETE",
-                    headers:{
-                        "Authorization":localStorage.getItem("token")
-                    }
-                 })
-                 .then(res => res.json())
-                .then(res => {showUsers(res.data)})
-                .catch(err => console.log(err)) 
-                })
-         }
-
+      //delete users
+      let deleteBtns = document.querySelectorAll(".deleteBtn");
+      for (let btn of deleteBtns) {
+        btn.addEventListener("click", (e) => {
+          fetch(`${BASE_URL}users/delete/${e.target.dataset.id}`, {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+            .then((res) => res.json())
+            .then((res) => {
+              showUsers(res.data);
+            })
+            .catch((err) => console.log(err));
+        });
+      }
     }
-</script>
+  </script>
 </html>

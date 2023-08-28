@@ -1,79 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SignUp</title>
-    <link rel="stylesheet" href="./styles/login&signUp.css">
+    <link rel="stylesheet" href="./styles/login&signUp.css" />
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-</head>
-<body>
+  </head>
+  <body>
     <header></header>
-        <div class="background">
-            <div id="SingUpRegister">
-                <h2>SIGNUP FORM</h2>
-                <form>
-                    <div class="form-group">
-                        <input type="text" name="name" id="name" placeholder="Full Name" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="email" name="email" id="email" placeholder="Email Address" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="password" name="pass" id="pass" placeholder="Password" required>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit">Sign Up</button>
-                        <!-- <input type="submit" value="Submit"> -->
-                    </div>
-                </form>
-                <p>Already a member? <a href="./signIn.html">Sign In</a></p>
-            </div>
-        </div>
+    <div class="background">
+      <div id="SingUpRegister">
+        <h2>SIGNUP FORM</h2>
+        <form>
+          <div class="form-group">
+            <input
+              type="text"
+              name="name"
+              id="name"
+              placeholder="Full Name"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="email"
+              name="email"
+              id="email"
+              placeholder="Email Address"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="password"
+              name="pass"
+              id="pass"
+              placeholder="Password"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <button type="submit">Sign Up</button>
+            <!-- <input type="submit" value="Submit"> -->
+          </div>
+        </form>
+        <p>Already a member? <a href="./signIn.html">Sign In</a></p>
+      </div>
+    </div>
 
-        <footer></footer>   
+    <footer></footer>
+  </body>
+  <script type="module">
+    import { BASE_URL } from "./baseUrl.js";
 
-</body> 
-   <script>
-
-    let signUpform=document.querySelector("form")
+    let signUpform = document.querySelector("form");
     // console.log(signUp)
-    signUpform.addEventListener("submit",(e)=>{
-        e.preventDefault()
-        const userDetail={
-            name:signUpform.name.value,
-            email:signUpform.email.value,
-            pass:signUpform.pass.value
-        }
+    signUpform.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const userDetail = {
+        name: signUpform.name.value,
+        email: signUpform.email.value,
+        pass: signUpform.pass.value,
+      };
 
-        console.log(userDetail)
-        fetch("https://fine-cowboy-hat-deer.cyclic.app/users/register",{
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body:JSON.stringify(userDetail)
+      console.log(userDetail);
+      fetch(BASE_URL + "users/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userDetail),
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          alert(res.msg);
+          if (res.status) {
+            window.location.href = "./signin.html";
+          }
         })
-        .then(res=>res.json())
-        .then((res)=>{
-            alert(res.msg)
-            if(res.msg=="new users has been register"){
-                window.location.href="./signin.html"
-            }
-        })
-        .catch(err=>console.log(err))
-    })
-    
-   </script>
+        .catch((err) => console.log(err));
+    });
+  </script>
 </html>
 
 <script>
-    $(function (){
-        $("header").load("navbar.html")
-    })
+  $(function () {
+    $("header").load("navbar.html");
+  });
 
-    $(function (){
-        $("footer").load("footer.html")
-    })
-</script>  
+  $(function () {
+    $("footer").load("footer.html");
+  });
+</script>

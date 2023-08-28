@@ -1,90 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign in</title>
-    <link rel="stylesheet" href="./styles/login&signUp.css">
+    <link rel="stylesheet" href="./styles/login&signUp.css" />
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-</head>
-<body>
+  </head>
+  <body>
     <header></header>
-       
+
     <div class="background">
-        
-        <div id="signInLogin">
-            
-            <h2>SIGNIN FORM</h2>
+      <div id="signInLogin">
+        <h2>SIGNIN FORM</h2>
         <form>
-            <div class="form-group">
-                <input type="email" name="email" id="email" placeholder="Email Address" required>
-            </div>
-            <div class="form-group">
-                <input type="password" name="pass" id="pass" placeholder="Password" required>
-            </div>
-            <div class="form-group">
-                <button type="submit">Sign In</button>
-            </div>
+          <div class="form-group">
+            <input
+              type="email"
+              name="email"
+              id="email"
+              placeholder="Email Address"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="password"
+              name="pass"
+              id="pass"
+              placeholder="Password"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <button type="submit">Sign In</button>
+          </div>
         </form>
         <p>Don't have an account? <a href="./signUp.html">Sign Up</a> here</p>
-        
-        </div>
-        
+      </div>
     </div>
 
-    <footer>
-    </footer>
+    <footer></footer>
+  </body>
 
-  
-</body>
-   
-  <script>
+  <script type="module">
+    import { BASE_URL } from "./baseUrl.js";
 
-let signInLogin=document.querySelector("form")
+    let signInLogin = document.querySelector("form");
     // console.log(signUp)
-    signInLogin.addEventListener("submit",(e)=>{
-        e.preventDefault()
-        const userDetail={
-            email:signInLogin.email.value,
-            pass:signInLogin.pass.value
-        }
+    signInLogin.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const userDetail = {
+        email: signInLogin.email.value,
+        pass: signInLogin.pass.value,
+      };
 
-        console.log(userDetail)
-        fetch("https://fine-cowboy-hat-deer.cyclic.app/users/login",{
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body:JSON.stringify(userDetail)
+      console.log(userDetail);
+      fetch(BASE_URL + "users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userDetail),
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.isAdmin) {
+            alert(`Welcome Admin`);
+            window.location.href = "./admin.html";
+          } else if (res.status) {
+            // localStorage.setItem("loginUser",res.name)
+            alert(res.msg);
+            window.location.href = "./index.html";
+          } else {
+            alert(res.msg);
+          }
+
+          localStorage.setItem("LoginUser", JSON.stringify(res));
         })
-        .then(res=>res.json())
-        .then((res)=>{
-            if(res.isAdmin){
-                alert(`Welcome Admin`)
-                 window.location.href="./admin.html"
-            }else if(res.msg=="login Successful"){
-                // localStorage.setItem("loginUser",res.name)
-                alert(res.msg)
-                window.location.href="./index.html"
-            }else{
-                alert(res.msg)
-            }
-
-            localStorage.setItem("token",res.token)
-        })
-        .catch(err=>console.log(err))
-    })
-
+        .catch((err) => console.log(err));
+    });
   </script>
 </html>
 
 <script>
-    $(function (){
-        $("header").load("navbar.html")
-    })
+  $(function () {
+    $("header").load("navbar.html");
+  });
 
-    $(function (){
-        $("footer").load("footer.html")
-    })
-</script>  
+  $(function () {
+    $("footer").load("footer.html");
+  });
+</script>

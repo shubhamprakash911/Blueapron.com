@@ -1,102 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>products</title>
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    <link rel="stylesheet" href="./styles//products.css">
-</head>
+    <link rel="stylesheet" href="./styles//products.css" />
+  </head>
 
-<body>
+  <body>
     <header></header>
 
     <div id="functionality">
-        <button id="popular">popular</button>
-        
-        <div id="filterfunc">
-            <div id="brand">
-                <select id="brandfilter">
-                    <option value="">Brand</option>
-                    <option value="kfc">KFC</option>
-                    <option value="mcdonald's">McDonald's</option>
-                    <option value="subway">Subway</option>
-                    <option value="haldiram">Haldiram's</option>
-                    <option value="burgerking">Burger King</option>
-                </select>
-            </div>
-    
-                <div id="cuisine">
-                    <select id="cuisinefilter">
-                        <option value="">Cuisine</option>
-                        <option value="indian">Indian</option>
-                        <option value="italian">Italian</option>
-                        <option value="american">american</option>
-                    </select>    
-                </div>
-        
-                <div id="sort">
-                    <select id="sortfilter">
-                        <option value="">Sort</option>
-                        <option value="lowToHigh">Low To High</option>
-                        <option value="highToLow">High To Low</option>
-                    </select>
-                </div>
+      <button id="popular">popular</button>
+
+      <div id="filterfunc">
+        <div id="brand">
+          <select id="brandfilter">
+            <option value="">Brand</option>
+            <option value="kfc">KFC</option>
+            <option value="mcdonald's">McDonald's</option>
+            <option value="subway">Subway</option>
+            <option value="haldiram">Haldiram's</option>
+            <option value="burgerking">Burger King</option>
+          </select>
         </div>
-    
-            <div id="priceRange">
-                 <div>
-                    <label>Min Price</label>
-                    <input type="text" id="minPrice">
-                 </div>
-                 <div>
-                    <label>Max Price</label>
-                    <input type="text" id="highPrice">
-                 </div>
 
-                <button onclick="minmax()" >submit</button>
-            </div>
-
-        <div id="radioBtn">
-            <div>
-                <input type="radio" id="all" name="drone" value="" checked>
-                <label for="all">All</label>
-              </div>
-
-            <div>
-                <input type="radio" id="veg" name="drone" value="veg">
-                <label for="veg">Veg</label>
-              </div>
-          
-              <div>
-                <input type="radio" id="nonveg" name="drone" value="nonveg">
-                <label for="nonveg">Non Veg</label>
-              </div>
+        <div id="cuisine">
+          <select id="cuisinefilter">
+            <option value="">Cuisine</option>
+            <option value="indian">Indian</option>
+            <option value="italian">Italian</option>
+            <option value="american">american</option>
+          </select>
         </div>
+
+        <div id="sort">
+          <select id="sortfilter">
+            <option value="">Sort</option>
+            <option value="lowToHigh">Low To High</option>
+            <option value="highToLow">High To Low</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="priceRange">
+        <div>
+          <label>Min Price</label>
+          <input type="text" id="minPrice" />
+        </div>
+        <div>
+          <label>Max Price</label>
+          <input type="text" id="highPrice" />
+        </div>
+
+        <button id="minmax">submit</button>
+      </div>
+
+      <div id="radioBtn">
+        <div>
+          <input type="radio" id="all" name="drone" value="" checked />
+          <label for="all">All</label>
+        </div>
+
+        <div>
+          <input type="radio" id="veg" name="drone" value="veg" />
+          <label for="veg">Veg</label>
+        </div>
+
+        <div>
+          <input type="radio" id="nonveg" name="drone" value="nonveg" />
+          <label for="nonveg">Non Veg</label>
+        </div>
+      </div>
     </div>
 
-
-    <div id="products">
-    </div>
+    <div id="products"></div>
 
     <footer></footer>
-</body>
- <script>
-const name=localStorage.getItem("productData")
-let brand=localStorage.getItem("brand")
-let addToCart=JSON.parse(localStorage.getItem("cart"))||[]
+  </body>
+  <script type="module">
+    import { BASE_URL } from "./baseUrl.js";
+    const token = JSON.parse(localStorage.getItem("LoginUser"));
 
-//all parameter in global scope
-let cuisine; let rating; let sort; let min; let max; let type
+    const name = localStorage.getItem("productData");
+    let brand = localStorage.getItem("brand");
+    let addToCart = JSON.parse(localStorage.getItem("cart")) || [];
 
+    //all parameter in global scope
+    let cuisine;
+    let rating;
+    let sort;
+    let min;
+    let max;
+    let type;
 
- const getFood= (name,brand,rating="",sort="",cuisine="",min="",max="",type="")=>{
-    console.log(name,brand,rating,sort,cuisine,min,max)
-    fetch(`https://fine-cowboy-hat-deer.cyclic.app/products?search=${name}&brand=${brand}&rating=${rating}&sort=${sort}&cuisine=${cuisine}&min=${min}&max=${max}&type=${type}`)
-     .then(res=>res.json())
-     .then((res)=>{
-        const cart=res.map((el,i)=>{
+    const getFood = (
+      name,
+      brand,
+      rating = "",
+      sort = "",
+      cuisine = "",
+      min = "",
+      max = "",
+      type = ""
+    ) => {
+      console.log(name, brand, rating, sort, cuisine, min, max);
+      fetch(
+        `${BASE_URL}products?search=${name}&brand=${brand}&rating=${rating}&sort=${sort}&cuisine=${cuisine}&min=${min}&max=${max}&type=${type}`
+      )
+        .then((res) => res.json())
+        .then((res) => {
+          const cart = res.map((el, i) => {
             return `<div class="proCart">
             <div class="proImg"><img src=${el.img}></div>
             <h4 class="proName">${el.name}</h4>
@@ -106,94 +122,100 @@ let cuisine; let rating; let sort; let min; let max; let type
             <h class="proType">Type: ${el.type}</p>
            <h4 class="proPrice">Price: ${el.price}</h4>
             <div class="divForcenter"><button class="proBtn" data-id=${i}>Add To Cart</button></div>
-            </div>`
-        })
-        document.getElementById("products").innerHTML=cart.join(" ")
+            </div>`;
+          });
+          document.getElementById("products").innerHTML = cart.join(" ");
 
-        let cartsBtn=document.querySelectorAll(".proBtn")
-        for(let btn of cartsBtn){
-            btn.addEventListener("click",(e)=>{
-                addToCart.push(res[e.target.dataset.id])
-                localStorage.setItem("cart",JSON.stringify(addToCart))
-                alert("product added to cart")
-            })
+          let cartsBtn = document.querySelectorAll(".proBtn");
+          for (let btn of cartsBtn) {
+            btn.addEventListener("click", (e) => {
+              if (!token) {
+                alert("please login first");
+                return;
+              }
+              addToCart.push(res[e.target.dataset.id]);
+              localStorage.setItem("cart", JSON.stringify(addToCart));
+              alert("product added to cart");
+            });
+          }
+        });
+    };
+
+    //radio all
+    document.getElementById("all").addEventListener("click", () => {
+      getFood(name, brand, rating, sort, cuisine, min, max);
+    });
+
+    //radio veg
+    let vegRadio = document.getElementById("veg");
+    vegRadio.addEventListener("click", () => {
+      type = vegRadio.value;
+      getFood(name, brand, rating, sort, cuisine, min, max, type);
+    });
+
+    //radio non-veg
+    let nonVeg = document.getElementById("nonveg");
+    nonVeg.addEventListener("click", () => {
+      console.log(nonVeg.value);
+      type = nonVeg.value;
+      getFood(name, brand, rating, sort, cuisine, min, max, type);
+    });
+
+    //price range
+    document.getElementById("minmax").addEventListener("click", () => {
+      min = document.getElementById("minPrice").value;
+      max = document.getElementById("highPrice").value;
+      console.log(min, max);
+      getFood(name, brand, rating, sort, cuisine, min, max, type);
+    });
+
+    //filter brand
+    let brandfilter = document.getElementById("brandfilter");
+
+    brandfilter.addEventListener("change", () => {
+      brand = brandfilter.value;
+      getFood(name, brand, rating, sort, cuisine, min, max, type);
+    });
+
+    //rating sort
+    document.getElementById("popular").addEventListener("click", () => {
+      rating = "des";
+      getFood(name, brand, rating, sort, cuisine, min, max, type);
+    });
+
+    //sort price
+    let sortfilter = document.getElementById("sortfilter");
+    sortfilter.addEventListener("change", () => {
+      if (sortfilter.value === "") {
+        getFood(name, brand, rating, sort, cuisine, min, max, type);
+      } else {
+        if (sortfilter.value == "lowToHigh") {
+          sort = 1;
+          getFood(name, brand, rating, sort, cuisine, min, max, type);
+        } else {
+          sort = -1;
+          getFood(name, brand, rating, sort, cuisine, min, max, type);
         }
-     })
- }
+      }
+    });
 
- //radio all
- document.getElementById("all").addEventListener("click",()=>{
-    getFood(name,brand,rating,sort,cuisine,min,max)
- })
+    //filter cuisine
+    let cuisinefilter = document.getElementById("cuisinefilter");
+    cuisinefilter.addEventListener("change", () => {
+      cuisine = cuisinefilter.value;
+      getFood(name, brand, rating, sort, cuisine, min, max, type);
+    });
 
- //radio veg
- let vegRadio=document.getElementById("veg")
- vegRadio.addEventListener("click",()=>{
-    type=vegRadio.value
-    getFood(name,brand,rating,sort,cuisine,min,max,type)
- })
-
- //radio non-veg
- let nonVeg=document.getElementById("nonveg")
- nonVeg.addEventListener("click",()=>{
-    console.log(nonVeg.value)
-    type=nonVeg.value
-    getFood(name,brand,rating,sort,cuisine,min,max,type)
- })
-
-//price range
-function minmax(){
-    min=document.getElementById("minPrice").value
-    max=document.getElementById("highPrice").value
-    getFood(name,brand,rating,sort,cuisine,min,max,type)
-}
-
- //filter brand
-brandfilter=document.getElementById("brandfilter")
-brandfilter.addEventListener("change",()=>{
-    brand=brandfilter.value
-    getFood(name,brand,rating,sort,cuisine,min,max,type)
-})
-
-//rating sort
- document.getElementById("popular").addEventListener("click",()=>{
-    rating="des"
-    getFood(name,brand,rating,sort,cuisine,min,max,type)
- })
-
- //sort price
-let sortfilter=document.getElementById("sortfilter")
-sortfilter.addEventListener("change",()=>{
-    if(sortfilter.value===""){
-        getFood(name,brand,rating,sort,cuisine,min,max,type)
-    }else{
-        if(sortfilter.value=="lowToHigh"){
-            sort=1
-            getFood(name,brand,rating,sort,cuisine,min,max,type)
-        }else{
-            sort=-1
-            getFood(name,brand,rating,sort,cuisine,min,max,type)
-        }
-    } 
-})
-
-//filter cuisine
-let cuisinefilter=document.getElementById("cuisinefilter")
-cuisinefilter.addEventListener("change",()=>{
-    cuisine=cuisinefilter.value
-    getFood(name,brand,rating,sort,cuisine,min,max,type)
-})
-
-getFood(name,brand)
- </script>
+    getFood(name, brand);
+  </script>
 </html>
 
 <script>
-    $(function (){
-        $("header").load("navbar.html")
-    })
+  $(function () {
+    $("header").load("navbar.html");
+  });
 
-    $(function (){
-        $("footer").load("footer.html")
-    })
-</script>  
+  $(function () {
+    $("footer").load("footer.html");
+  });
+</script>
