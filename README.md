@@ -6,7 +6,8 @@ Blue Apron Is An American Meal Kit Delivery Service That Provides Customers With
 
 ### Tech-Stack Used
 
-HTML | CSS | JavaScript
+Frontend:- HTML | CSS | JavaScript
+Backend:- NodeJs | Express | Mongoose |
 
 ### Features
 
